@@ -4,7 +4,7 @@ import appconfig from '../config'
 //	Actions
 import SystemStateActions from '../actions/SystemStateActions';
 
-class CentralConfigAPIUtils {
+class APIUtils {
 
 	//	Gets the current system state from the service
 	getCurrentState() 
@@ -32,4 +32,4 @@ class CentralConfigAPIUtils {
 	}
 }
 
-export default new CentralConfigAPIUtils();
+export default new APIUtils();

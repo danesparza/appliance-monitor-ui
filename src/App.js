@@ -29,7 +29,7 @@ class App extends Component {
     this.state = {
       isOpen: false,
       systemState: {
-        devicerunning: "unknown"
+        appversion: "unknown"
       }
     };
 
@@ -55,13 +55,7 @@ class App extends Component {
 	}
 
   render() {
-    var toast = "Didn't get it";
-
-    if(this.state.systemState.devicerunning === false)
-    {
-      toast = "GOT IT";
-    }
-
+    
     return (
       <div>
         <Navbar color="inverse" inverse toggleable>
@@ -82,7 +76,7 @@ class App extends Component {
           <Container>
             <Row>
               <Col>
-                <h1>Welcome to React {toast}</h1>
+                <h1>Welcome to Appliance Monitor {this.state.systemState.appversion}</h1>
                 <p>
                   <Button tag="a" color="success" size="large" href="http://reactstrap.github.io" target="_blank">
                     View Reactstrap Docs
