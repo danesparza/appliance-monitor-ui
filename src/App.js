@@ -14,8 +14,12 @@ import {
   Button
 } from 'reactstrap';
 
+//  Stylesheets
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+
+//  Stores
+import SystemStateStore from './stores/SystemStateStore'
 
 class App extends Component {
   constructor(props) {
@@ -23,15 +27,41 @@ class App extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      systemState: {
+        devicerunning: "unknown"
+      }
     };
+
+    //  Bind our events: 
+    this._onChange = this._onChange.bind(this);
+
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+
+  componentDidMount() {
+	    //  Add store listeners ... and notify ME of changes
+	    this.systemStateListener = SystemStateStore.addListener(this._onChange);	    
+	}
+
+	componentWillUnmount() {
+	    //  Remove store listeners
+	    this.systemStateListener.remove();
+	}
+
   render() {
+    var toast = "Didn't get it";
+
+    if(this.state.systemState.devicerunning === false)
+    {
+      toast = "GOT IT";
+    }
+
     return (
       <div>
         <Navbar color="inverse" inverse toggleable>
@@ -52,7 +82,7 @@ class App extends Component {
           <Container>
             <Row>
               <Col>
-                <h1>Welcome to React</h1>
+                <h1>Welcome to React {toast}</h1>
                 <p>
                   <Button tag="a" color="success" size="large" href="http://reactstrap.github.io" target="_blank">
                     View Reactstrap Docs
@@ -65,6 +95,13 @@ class App extends Component {
       </div>
     );
   }
+
+  _onChange() {
+    this.setState({
+      systemState: SystemStateStore.getCurrentState()      
+    });
+  }
+
 }
 
 export default App;

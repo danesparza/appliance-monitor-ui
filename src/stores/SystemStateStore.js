@@ -9,15 +9,16 @@ class SystemStateStore extends Store {
   }
 
   getCurrentState() {
-    return this.appFilter;
+    return this.systemState;    
   }
 
   __onDispatch(action) {
     
     switch(action.actionType) {
-      case CentralConfigConstants.RECIEVE_APPFILTER:      
-        console.log('Updating appfilter store.  New filter: ' + action.appFilter);
-        this.appFilter = action.appFilter;
+      case ActionTypes.RECEIVE_STATE:      
+        console.log('Updating current state store.');
+        console.log(action.stateData);
+        this.systemState = action.stateData;
         this.__emitChange();
         break;
 
@@ -27,4 +28,4 @@ class SystemStateStore extends Store {
   }
 }
 
-module.exports = new SystemStateStore();
+export default new SystemStateStore();
