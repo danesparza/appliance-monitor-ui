@@ -11,7 +11,8 @@ import {
   Row,
   Col,
   Jumbotron,
-  Button
+  Button,
+  Badge
 } from 'reactstrap';
 
 //  Stylesheets
@@ -60,14 +61,14 @@ class App extends Component {
       <div>
         <Navbar color="inverse" inverse toggleable>
           <NavbarToggler right onClick={this.toggle} />
-          <NavbarBrand href="/">Appliance monitor</NavbarBrand>
+          <NavbarBrand href="/">Appliance monitor <small>v{this.state.systemState.appversion}</small></NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink href="/components/">Settings</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/danesparza/appliance-monitor">Github</NavLink>
+                <NavLink href="https://github.com/danesparza/appliance-monitor">Help</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
@@ -76,7 +77,7 @@ class App extends Component {
           <Container>
             <Row>
               <Col>
-                <h1>Welcome to Appliance Monitor {this.state.systemState.appversion}</h1>
+                <h2>The Dryer is <Badge>not running</Badge></h2>
                 <p>
                   <Button tag="a" color="success" size="large" href="http://reactstrap.github.io" target="_blank">
                     View Reactstrap Docs

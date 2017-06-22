@@ -7,6 +7,8 @@ import './index.css';
 //	The API utils
 import APIutils from './utils/APIutils';
 APIutils.getCurrentState();
+APIutils.getActivities();
+APIutils.getAllConfigItems();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
