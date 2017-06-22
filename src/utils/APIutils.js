@@ -3,6 +3,8 @@ import appconfig from '../config'
 
 //	Actions
 import SystemStateActions from '../actions/SystemStateActions';
+import ConfigActions from '../actions/ConfigActions';
+import ActivityActions from '../actions/ActivityActions';
 
 class APIUtils {
 
@@ -22,7 +24,7 @@ class APIUtils {
 
 					// Examine the text in the response  
 					response.json().then(function (data) {
-						SystemStateActions.recieveSystemState(data);						
+						SystemStateActions.receiveSystemState(data);						
 					});
 				}
 			)
@@ -47,8 +49,7 @@ class APIUtils {
 
 					// Examine the text in the response  
 					response.json().then(function (data) {
-						console.log(data);
-						// SystemStateActions.recieveSystemState(data);						
+						ActivityActions.receiveActivities(data);
 					});
 				}
 			)
@@ -73,8 +74,7 @@ class APIUtils {
 
 					// Examine the text in the response  
 					response.json().then(function (data) {
-						console.log(data);
-						// SystemStateActions.recieveSystemState(data);						
+						ConfigActions.receiveConfigItems(data);			
 					});
 				}
 			)

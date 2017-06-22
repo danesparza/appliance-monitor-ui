@@ -16,8 +16,7 @@ class SystemStateStore extends Store {
     
     switch(action.actionType) {
       case ActionTypes.RECEIVE_STATE:      
-        console.log('Updating current state store.');
-        console.log(action.stateData);
+        console.log('Updating current state store: ', action);
         this.systemState = action.stateData;
         this.__emitChange();
         break;

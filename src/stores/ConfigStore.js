@@ -16,8 +16,7 @@ class ConfigStore extends Store {
     
     switch(action.actionType) {
       case ActionTypes.RECEIVE_CONFIG:      
-        console.log('Updating config store.');
-        console.log(action.configData);
+        console.log('Updating config store: ', action);
         this.configItems = action.configData;
         this.__emitChange();
         break;

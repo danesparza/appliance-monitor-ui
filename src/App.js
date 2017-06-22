@@ -21,6 +21,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 //  Stores
 import SystemStateStore from './stores/SystemStateStore'
+import ActivityStore from './stores/ActivityStore'
+import ConfigStore from './stores/ConfigStore'
 
 class App extends Component {
   constructor(props) {
@@ -31,7 +33,9 @@ class App extends Component {
       isOpen: false,
       systemState: {
         appversion: "unknown"
-      }
+      },
+      configItems: [],
+      activityItems: []
     };
 
     //  Bind our events: 
@@ -47,12 +51,16 @@ class App extends Component {
 
   componentDidMount() {
 	    //  Add store listeners ... and notify ME of changes
-	    this.systemStateListener = SystemStateStore.addListener(this._onChange);	    
+	    this.systemStateListener = SystemStateStore.addListener(this._onChange);
+      this.configListener = ConfigStore.addListener(this._onChange);
+      this.activityListener = ActivityStore.addListener(this._onChange);
 	}
 
 	componentWillUnmount() {
 	    //  Remove store listeners
 	    this.systemStateListener.remove();
+      this.activityListener.remove();
+      this.configListener.remove();
 	}
 
   render() {
@@ -93,7 +101,9 @@ class App extends Component {
 
   _onChange() {
     this.setState({
-      systemState: SystemStateStore.getCurrentState()      
+      systemState: SystemStateStore.getCurrentState(),
+      configItems: ConfigStore.getAllConfigItems(),
+      activityItems: ActivityStore.getAllActivities()
     });
   }
 

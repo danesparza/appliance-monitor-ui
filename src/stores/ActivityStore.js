@@ -16,8 +16,7 @@ class ActivityStore extends Store {
     
     switch(action.actionType) {
       case ActionTypes.RECEIVE_ACTIVITIES:      
-        console.log('Updating activity store.');
-        console.log(action.activityData);
+        console.log('Updating activity store: ', action);
         this.activities = action.activityData;
         this.__emitChange();
         break;

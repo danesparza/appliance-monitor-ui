@@ -4,7 +4,7 @@ import ActionTypes from './ActionTypes';
 class SystemStateActions {
 
 	//	Updates the 'system state' store
-	recieveSystemState(stateData) {
+	receiveSystemState(stateData) {
 
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_STATE,

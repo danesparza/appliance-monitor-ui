@@ -4,7 +4,7 @@ import ActionTypes from './ActionTypes';
 class ConfigActions {
 
 	//	Updates the 'config' store
-	recieveConfigItems(configData) {
+	receiveConfigItems(configData) {
 
 		AppDispatcher.dispatch({
 		  actionType: ActionTypes.RECEIVE_CONFIG,
