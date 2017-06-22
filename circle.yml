@@ -1,0 +1,21 @@
+machine:
+  node:
+    version: 6
+dependencies:
+  pre:
+    # Our Github release maker
+    # - go get github.com/tcnksm/ghr
+  override:    
+    # Execute the build process
+    - npm install -g yarn
+    - yarn
+    - yarn build
+test:
+  post:
+    - echo .
+deployment:
+  hub:
+    branch: master
+    commands:
+      # Publish assets to Github
+      # - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM $CIRCLE_ARTIFACTS/ || true

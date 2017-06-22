@@ -1,3 +1,6 @@
+# appliance-monitor-ui [![CircleCI](https://circleci.com/gh/danesparza/appliance-monitor-ui.svg?style=svg)](https://circleci.com/gh/danesparza/appliance-monitor-ui)
+UI for the appliance-monitor service
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
