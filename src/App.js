@@ -12,7 +12,8 @@ import {
   Col,
   Jumbotron,
   Button,
-  Badge
+  Badge,
+  Table,
 } from 'reactstrap';
 
 //  Stylesheets
@@ -24,16 +25,18 @@ import SystemStateStore from './stores/SystemStateStore'
 import ActivityStore from './stores/ActivityStore'
 import ConfigStore from './stores/ConfigStore'
 
-class App extends Component {
+let badgeRunning = <Badge color="success">running</Badge>;
+let badgeNotRunning = <Badge>not running</Badge>;
+
+class App extends Component {  
+
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      systemState: {
-        appversion: "unknown"
-      },
+      systemState:{},
       configItems: [],
       activityItems: []
     };
@@ -64,16 +67,22 @@ class App extends Component {
 	}
 
   render() {
-    
+    //  First, see if the device is running:
+    let runState = badgeNotRunning;
+    if(this.state.systemState.devicerunning === true)
+    {
+      runState = badgeRunning;
+    }
+
     return (
       <div>
         <Navbar color="inverse" inverse toggleable>
           <NavbarToggler right onClick={this.toggle} />
-          <NavbarBrand href="/">Appliance monitor <small>v{this.state.systemState.appversion}</small></NavbarBrand>
+          <NavbarBrand href="#/">Appliance monitor <small>v{this.state.systemState.appversion}</small></NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Settings</NavLink>
+                <NavLink href="#/settings">Settings</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/danesparza/appliance-monitor">Help</NavLink>
@@ -85,16 +94,31 @@ class App extends Component {
           <Container>
             <Row>
               <Col>
-                <h2>The Dryer is <Badge>not running</Badge></h2>
-                <p>
-                  <Button tag="a" color="success" size="large" href="http://reactstrap.github.io" target="_blank">
-                    View Reactstrap Docs
-                  </Button>
-                </p>
+                <h2>The Dryer is {runState}</h2>
+                <p className="lead">It has been running for 12 minutes.</p>
               </Col>
             </Row>
           </Container>
         </Jumbotron>
+        <Container>
+            <p className="lead">Recent activity</p>
+            <Table>
+              <tbody>
+                <tr>
+                  <th scope="row">2:23pm</th>
+                  <td>The dryer started</td>
+                </tr>
+                <tr>
+                  <th scope="row">1:12pm</th>
+                  <td>The dryer stopped.  It ran for 45 minutes.</td>                  
+                </tr>
+                <tr>
+                  <th scope="row">12:27pm</th>
+                  <td>The dryer started.</td>                  
+                </tr>
+              </tbody>
+            </Table>
+          </Container>
       </div>
     );
   }
