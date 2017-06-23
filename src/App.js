@@ -95,7 +95,7 @@ class App extends Component {
             <Row>
               <Col>
                 <h2>The Dryer is {runState}</h2>
-                <p className="lead">It has been running for 12 minutes.</p>
+                <p className="lead">It has been stopped for 12 minutes.</p>
               </Col>
             </Row>
           </Container>

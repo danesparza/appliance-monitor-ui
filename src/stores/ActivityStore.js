@@ -6,6 +6,9 @@ class ActivityStore extends Store {
 
   constructor() {
     super(AppDispatcher);
+
+    //  Default to an empty array
+    this.activities = [];
   }
 
   getAllActivities() {
