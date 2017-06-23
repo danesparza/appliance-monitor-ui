@@ -1,3 +1,4 @@
+//  React and reactstrap
 import React, { Component } from 'react';
 import {
   Collapse,
@@ -11,7 +12,6 @@ import {
   Row,
   Col,
   Jumbotron,
-  Button,
   Badge,
   Table,
 } from 'reactstrap';
@@ -19,6 +19,9 @@ import {
 //  Stylesheets
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+
+//  Moment
+import moment from 'moment';
 
 //  Stores
 import SystemStateStore from './stores/SystemStateStore'
@@ -38,7 +41,8 @@ class App extends Component {
       isOpen: false,
       systemState:{},
       configItems: [],
-      activityItems: []
+      activityItems: [],
+      mostRecentActivity: {}
     };
 
     //  Bind our events: 
@@ -69,10 +73,19 @@ class App extends Component {
   render() {
     //  First, see if the device is running:
     let runState = badgeNotRunning;
+    let runStateText = "stopped";
     if(this.state.systemState.devicerunning === true)
     {
       runState = badgeRunning;
+      runStateText = "running";
     }
+
+    let timeSinceState = "time immemorial";
+    if(this.state.mostRecentActivity != null)
+    {
+      timeSinceState = moment(this.state.mostRecentActivity.timestamp).fromNow(true);
+    }
+
 
     return (
       <div>
@@ -95,7 +108,7 @@ class App extends Component {
             <Row>
               <Col>
                 <h2>The Dryer is {runState}</h2>
-                <p className="lead">It has been stopped for 12 minutes.</p>
+                <p className="lead">It has been {runStateText} for {timeSinceState}.</p>
               </Col>
             </Row>
           </Container>
@@ -127,7 +140,8 @@ class App extends Component {
     this.setState({
       systemState: SystemStateStore.getCurrentState(),
       configItems: ConfigStore.getAllConfigItems(),
-      activityItems: ActivityStore.getAllActivities()
+      activityItems: ActivityStore.getAllActivities(),
+      mostRecentActivity: ActivityStore.getMostRecentActivity()
     });
   }
 
