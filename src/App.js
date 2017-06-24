@@ -13,12 +13,12 @@ import {
   Col,
   Jumbotron,
   Badge,
-  Table,
 } from 'reactstrap';
 
-//  Stylesheets
+//  Stylesheets & images
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import washimg from './washing-machine.svg';
 
 //  Moment
 import moment from 'moment';
@@ -114,23 +114,66 @@ class App extends Component {
           </Container>
         </Jumbotron>
         <Container>
-            <p className="lead">Recent activity</p>
-            <Table>
-              <tbody>
-                <tr>
-                  <th scope="row">2:23pm</th>
-                  <td>The dryer started</td>
-                </tr>
-                <tr>
-                  <th scope="row">1:12pm</th>
-                  <td>The dryer stopped.  It ran for 45 minutes.</td>                  
-                </tr>
-                <tr>
-                  <th scope="row">12:27pm</th>
-                  <td>The dryer started.</td>                  
-                </tr>
-              </tbody>
-            </Table>
+
+            <p className="lead">Recent activity:</p>
+           
+            <section id="cd-timeline" className="cd-container">
+              
+              <div className="cd-timeline-block">
+                <div className="cd-timeline-img cd-stopped">
+                  <img src={washimg} className="App-washing" alt="Washing machine" />
+                </div>
+                <div className="cd-timeline-content">
+                  <h2>The dryer stopped</h2>
+                  <p>It ran for 45 minutes.</p>
+                  <span className="cd-date">Jan 14</span>
+                </div> 
+              </div> 
+
+              <div className="cd-timeline-block">
+                <div className="cd-timeline-img cd-started">
+                  <img src={washimg} className="App-washing" alt="Washing machine" />
+                </div>
+                <div className="cd-timeline-content">
+                  <h2>The dryer started</h2>
+                  <p></p>
+                  <span className="cd-date">Jan 18</span>
+                </div> 
+              </div> 
+
+              <div className="cd-timeline-block">
+                <div className="cd-timeline-img cd-systemrestart">
+                  <img src={washimg} className="App-washing" alt="Washing machine" />
+                </div>
+                <div className="cd-timeline-content">
+                  <h2>The monitoring system restarted</h2>
+                  <span className="cd-date">Jan 24</span>
+                </div> 
+              </div> 
+
+              <div className="cd-timeline-block">
+                <div className="cd-timeline-img cd-stopped">
+                  <img src={washimg} className="App-washing" alt="Washing machine" />
+                </div>
+                <div className="cd-timeline-content">
+                  <h2>The dryer stopped</h2>
+                  <p>It ran for 1 hour 32 minutes</p>
+                  <span className="cd-date">Feb 14</span>
+                </div> 
+              </div> 
+
+              <div className="cd-timeline-block">
+                <div className="cd-timeline-img cd-started">
+                  <img src={washimg} className="App-washing" alt="Washing machine" />
+                </div>
+                <div className="cd-timeline-content">
+                  <h2>The dryer started</h2>
+                  <span className="cd-date">Feb 18</span>
+                </div> 
+              </div> 
+
+            </section> 
+
           </Container>
       </div>
     );
