@@ -57,6 +57,7 @@ Modules - reusable parts of our design
   width: 4px;
   background: #d7e4ed;
 }
+
 @media only screen and (min-width: 1170px) {
   #cd-timeline {
     margin-top: 3em;
@@ -83,6 +84,7 @@ Modules - reusable parts of our design
 .cd-timeline-block:last-child {
   margin-bottom: 0;
 }
+
 @media only screen and (min-width: 1170px) {
   .cd-timeline-block {
     margin: 4em 0;
@@ -123,6 +125,7 @@ Modules - reusable parts of our design
 .cd-timeline-img.cd-systemrestart {
   background: #f0ca45;
 }
+
 @media only screen and (min-width: 1170px) {
   .cd-timeline-img {
     width: 60px;
@@ -196,6 +199,7 @@ Modules - reusable parts of our design
   border: 7px solid transparent;
   border-right: 7px solid white;
 }
+
 @media only screen and (min-width: 768px) {
   .cd-timeline-content h2 {
     font-size: 20px;
@@ -210,6 +214,7 @@ Modules - reusable parts of our design
     font-size: 0.875rem;
   }
 }
+
 @media only screen and (min-width: 1170px) {
   .cd-timeline-content {
     margin-left: 0;

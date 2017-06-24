@@ -116,17 +116,12 @@ class App extends Component {
           </Container>
         </Jumbotron>
         <Container>
-
-            <p className="lead">Recent activity:</p>
-           
-            <section id="cd-timeline" className="cd-container">
-              
-            {this.state.activityItems.map(function(activityItem) {
-              return <ActivityItem key={activityItem.timestamp} activity={activityItem}/>;
-            })}
-
-            </section> 
-
+            <p className="lead">Recent activity:</p>           
+            <section id="cd-timeline" className="cd-container">          
+              {this.state.activityItems.map(function(activityItem) {
+                return <ActivityItem key={activityItem.timestamp} activity={activityItem}/>;
+              })}
+            </section>
           </Container>
       </div>
     );

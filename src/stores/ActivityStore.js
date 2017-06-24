@@ -74,8 +74,6 @@ class ActivityStore extends Store {
           this.activities = formattedActivityData;
         }
 
-        console.log('Updated activity store: ', this.activities);
-
         this.__emitChange();
         break;
 
