@@ -1,6 +1,7 @@
 import {Store} from 'flux/utils';
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import ActionTypes from '../actions/ActionTypes';
+import moment from 'moment';
 
 class ActivityStore extends Store {
 
@@ -34,19 +35,44 @@ class ActivityStore extends Store {
     
     switch(action.actionType) {
       case ActionTypes.RECEIVE_ACTIVITIES:      
-        console.log('Updating activity store: ', action);
-
+        
         //  Set the activities:
-        this.activities = action.activityData;
-        if(this.activities != null)
+        let activityData = action.activityData;        
+
+        if(activityData != null)
         {
           //  Sort by date (most recent first)
-          this.activities.sort(function(a, b) {
+          activityData.sort(function(a, b) {
               a = new Date(a.timestamp);
               b = new Date(b.timestamp);
               return a>b ? -1 : a<b ? 1 : 0;
           });
+
+          //  For each event, calculate the time elapsed from the previous:
+          let previousDate = moment(new Date());
+
+          let formattedActivityData = activityData.map(function(item) {
+              
+              //  Calculate the difference between the previous date
+              //  and the current item's timestamp.  
+              let timeDiff = moment(item.timestamp).from(previousDate, true);
+
+              //  Set the previousDate to the current timestamp for the
+              //  next iteration:
+              previousDate = moment(item.timestamp);
+
+              return {
+                  timestamp: item.timestamp,
+                  eventtype: item.eventtype,
+                  timeElapsedFromPrevious: timeDiff                  
+              };
+          });
+        
+          //  Set the store array:
+          this.activities = formattedActivityData;
         }
+
+        console.log('Updated activity store: ', this.activities);
 
         this.__emitChange();
         break;
