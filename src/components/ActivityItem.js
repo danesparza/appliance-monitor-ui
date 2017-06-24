@@ -13,27 +13,34 @@ class ActivityItem extends Component {
     //  Set the state text and style based on the activity type
     let stateText = "behaved mysteriously";
     let additionalStateInfo = "";
+    let stateCSS = "cd-timeline-img ";
+
     switch(this.props.activity.eventtype)
     {
         case 0:
             stateText = "monitoring system restarted";
+            stateCSS += "cd-systemrestart";
             break;
         case 1:
             stateText = "started";
+            stateCSS += "cd-started";
             break;
         case 2:
             stateText = "stopped";
+            stateCSS += "cd-stopped";
             additionalStateInfo = "It ran for " + this.props.activity.timeElapsedFromPrevious;
             break;
         default:
     }
     
     //  Set the date/time based on the activity timestamp
-    let activityTime = moment(this.props.activity.timestamp).calendar();    
+    let activityTime = moment(this.props.activity.timestamp).calendar(
+        null, {sameElse: 'MM/DD/YYYY [at] h:mm A'}
+    );    
 
     return (
         <div className="cd-timeline-block">
-            <div className="cd-timeline-img cd-stopped">
+            <div className={stateCSS}>
                 <img src={washimg} className="App-washing" alt="Washing machine" />
             </div>
             <div className="cd-timeline-content">
