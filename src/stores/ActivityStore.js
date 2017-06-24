@@ -41,12 +41,7 @@ class ActivityStore extends Store {
 
         if(activityData != null)
         {
-          //  Sort by date (most recent first)
-          activityData.sort(function(a, b) {
-              a = new Date(a.timestamp);
-              b = new Date(b.timestamp);
-              return a>b ? -1 : a<b ? 1 : 0;
-          });
+          //  First, sort by date (most recent last):
 
           //  For each event, calculate the time elapsed from the previous:
           let previousDate = moment(new Date());
@@ -67,7 +62,14 @@ class ActivityStore extends Store {
                   timeElapsedFromPrevious: timeDiff                  
               };
           });
-        
+
+          //  Sort by date (most recent first)
+          formattedActivityData.sort(function(a, b) {
+              a = new Date(a.timestamp);
+              b = new Date(b.timestamp);
+              return a>b ? -1 : a<b ? 1 : 0;
+          });
+    
           //  Set the store array:
           this.activities = formattedActivityData;
         }

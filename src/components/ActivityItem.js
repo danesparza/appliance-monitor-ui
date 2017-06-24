@@ -20,7 +20,6 @@ class ActivityItem extends Component {
             break;
         case 1:
             stateText = "started";
-            additionalStateInfo = "It had been stopped for " + this.props.activity.timeElapsedFromPrevious;
             break;
         case 2:
             stateText = "stopped";
