@@ -20,8 +20,10 @@ registerServiceWorker();
 
 //	Listen to the websocket:
 let wsprotocol = "ws:";
+let baseUrl = window.location.host;
 if(window.location.protocol === "https:"){ wsprotocol = "wss:"; }
-let ws = new WebSocket(`${wsprotocol}//${appconfig.websocketBaseUrl}/ws`)
+if(appconfig.serviceBaseHostPort){baseUrl = `//${appconfig.serviceBaseHostPort}`; }
+let ws = new WebSocket(`${wsprotocol}//${baseUrl}/ws`)
 ws.addEventListener("message", function(e){     
     //  Get the latest version of activities and state:
     APIutils.getCurrentState();    

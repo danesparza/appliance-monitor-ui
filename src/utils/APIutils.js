@@ -7,12 +7,25 @@ import ConfigActions from '../actions/ConfigActions';
 import ActivityActions from '../actions/ActivityActions';
 
 class APIUtils {
+	
+	constructor()
+	{
+		this.baseUrl = "";
+		
+		//	Do a 'truthy' check to see if the config item is set
+		//	Confused?  See https://stackoverflow.com/a/5515349/19020
+		if(appconfig.serviceBaseHostPort)
+		{
+			this.baseUrl = `//${appconfig.serviceBaseHostPort}`;
+		}
+	}
+
 
 	//	Gets the current system state from the service
 	getCurrentState() 
 	{
 		//	Set the REST url
-		let url = `${appconfig.serviceBaseUrl}/system/state`;
+		let url = `${this.baseUrl}/system/state`;
 
 		fetch(url, {mode: 'cors'})
 			.then(
@@ -37,7 +50,7 @@ class APIUtils {
 	getActivities() 
 	{
 		//	Set the REST url
-		let url = `${appconfig.serviceBaseUrl}/activity`;
+		let url = `${this.baseUrl}/activity`;
 
 		fetch(url, {mode: 'cors'})
 			.then(
@@ -62,7 +75,7 @@ class APIUtils {
 	getAllConfigItems() 
 	{
 		//	Set the REST url
-		let url = `${appconfig.serviceBaseUrl}/config`;
+		let url = `${this.baseUrl}/config`;
 
 		fetch(url, {mode: 'cors'})
 			.then(
