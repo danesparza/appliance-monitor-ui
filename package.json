@@ -1,5 +1,6 @@
 {
   "name": "appliance-monitor-ui",
+  "homepage": "http://appliancemonitor.com/ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

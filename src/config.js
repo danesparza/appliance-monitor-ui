@@ -1,5 +1,6 @@
 const appconfig = {
-  "serviceBaseHostPort" : "cerdo.lan:3030" /* Leave blank for localhost/local service port */
+  /* Specify service base host & port like this: cerdo.lan:3030 */
+  "serviceBaseHostPort" : "" /* Leave blank for localhost/local service port. */
 };
 
 export default appconfig;
