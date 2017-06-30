@@ -5,6 +5,9 @@ dependencies:
   pre:
     # Our Github release maker
     - go get github.com/tcnksm/ghr
+    # Reset config
+    - rm src/config.js
+    - cp src/config.reset.js src/config.js
   override:    
     # Execute the build process
     - npm install -g yarn
