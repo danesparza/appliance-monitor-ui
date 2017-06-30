@@ -42,7 +42,6 @@ class App extends Component {
     this.state = {
       isOpen: false,
       systemState:{},
-      configItems: [],
       activityItems: [],
       mostRecentActivity: {}
     };
@@ -88,6 +87,8 @@ class App extends Component {
       timeSinceState = moment(this.state.mostRecentActivity.timestamp).fromNow(true);
     }
 
+    //  Get the appliance name:
+    let applianceName = ConfigStore.getApplianceName();
 
     return (
       <div>
@@ -109,7 +110,7 @@ class App extends Component {
           <Container>
             <Row>
               <Col>
-                <h2>The Dryer is {runState}</h2>
+                <h2>{applianceName} is {runState}</h2>
                 <p className="lead">It has been {runStateText} for {timeSinceState}.</p>
               </Col>
             </Row>
@@ -119,7 +120,7 @@ class App extends Component {
             <p className="lead">Recent activity:</p>           
             <section id="cd-timeline" className="cd-container">          
               {this.state.activityItems.map(function(activityItem) {
-                return <ActivityItem key={activityItem.timestamp} activity={activityItem}/>;
+                return <ActivityItem key={activityItem.timestamp} name={applianceName} activity={activityItem}/>;
               })}
             </section>
           </Container>
@@ -130,7 +131,6 @@ class App extends Component {
   _onChange() {
     this.setState({
       systemState: SystemStateStore.getCurrentState(),
-      configItems: ConfigStore.getAllConfigItems(),
       activityItems: ActivityStore.getAllActivities(),
       mostRecentActivity: ActivityStore.getMostRecentActivity()
     });

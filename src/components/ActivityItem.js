@@ -44,7 +44,7 @@ class ActivityItem extends Component {
                 <img src={washimg} className="App-washing" alt="Washing machine" />
             </div>
             <div className="cd-timeline-content">
-                <h2>The dryer {stateText}</h2>
+                <h2>{this.props.name} {stateText}</h2>
                 <p>{additionalStateInfo}</p>
                 <span className="cd-date">{activityTime}</span>
             </div> 

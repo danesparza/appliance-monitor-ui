@@ -31,16 +31,20 @@ let baseUrl = window.location.host;
 if(window.location.protocol === "https:"){ wsprotocol = "wss:"; }
 if(appconfig.serviceBaseHostPort){baseUrl = `//${appconfig.serviceBaseHostPort}`; }
 let ws = new WebSocket(`${wsprotocol}//${baseUrl}/ws`)
-ws.addEventListener("message", function(e){     
+ws.addEventListener("message", function(e){
+    //  TODO: Check to see what should be updated
+    //  (it could be config, activities/state, or something else)
+
     //  Get the latest version of activities and state:
     APIutils.getCurrentState();    
     APIutils.getActivities();
 
-    notifyMe("Appliance monitor", e.data);
+    //  TODO: Check to see if this is a type of message we
+    //  want to send notifications about:
+    desktopNotify("Appliance monitor", e.data);
 })
 
-
-function notifyMe(theTitle, theBody) {
+function desktopNotify(theTitle, theBody) {
 
     var options = {
         body: theBody,
