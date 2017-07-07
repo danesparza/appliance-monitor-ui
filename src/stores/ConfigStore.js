@@ -11,7 +11,6 @@ class ConfigStore extends Store {
 
   //  Gets the appliance name
   getApplianceName() {
-    console.log(this.getConfigValue("name"));
     return this.getConfigValue("name");
   }
 

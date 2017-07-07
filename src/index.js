@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, Route} from 'react-enroute'
+
+//  Components
 import App from './App';
+import Config from './components/Config';
+
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
@@ -10,14 +15,24 @@ import appconfig from './config'
 //	The API utils
 import APIutils from './utils/APIutils';
 
+//  Images
 import applianceIcon from './washing-machine.png';
+
+const state = {
+  location: window.location.pathname
+}
 
 //  Call API util methods:
 APIutils.getCurrentState();
 APIutils.getActivities();
 APIutils.getAllConfigItems();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Router {...state}>
+  <Route path="/" component={App} />
+  <Route path="/config" component={Config} />
+  <Route path="*" component={() => <div>404</div>} />
+</Router>, document.getElementById('root'))
+
 registerServiceWorker();
 
 //  Request permissions for notifications:
