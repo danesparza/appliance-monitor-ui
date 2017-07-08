@@ -30,6 +30,8 @@ APIutils.getAllConfigItems();
 ReactDOM.render(<Router {...state}>
   <Route path="/" component={App} />
   <Route path="/config" component={Config} />
+  <Route path="/ui" component={App} />
+  <Route path="/ui/config" component={Config} />
   <Route path="*" component={() => <div>404</div>} />
 </Router>, document.getElementById('root'))
 
