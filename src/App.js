@@ -1,70 +1,64 @@
 //  React and reactstrap
 import React, { Component } from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  Container,
-  Row,
-  Col,
-  Jumbotron,
-  Badge,
-} from 'reactstrap';
-
-//  Stylesheets & images
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.css';
-
-//  Moment
-import moment from 'moment';
+import {Router, Route} from 'react-enroute';
 
 //  Components
-import ActivityItem from './components/ActivityItem';
+import Main from './components/Main';
+import Settings from './components/Settings';
+import NotFound from './components/NotFound';
 
 //  Stores
 import SystemStateStore from './stores/SystemStateStore'
 import ActivityStore from './stores/ActivityStore'
 import ConfigStore from './stores/ConfigStore'
 
-let badgeRunning = <Badge color="success">running</Badge>;
-let badgeNotRunning = <Badge>not running</Badge>;
+//  Stylesheets & images
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
+const getHash = hash => {
+  if (typeof hash === 'string' && hash.length > 0) {
+    if (hash.substring(0, 1) === '#') {
+      return hash.substring(1);
+    }
+    return hash;
+  }
+  return '/';
+};
 
 class App extends Component {  
 
-  constructor(props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
+  constructor(){
+    super();
     this.state = {
-      isOpen: false,
+      location: getHash(window.location.hash),
       systemState:{},
       activityItems: [],
       mostRecentActivity: {}
     };
 
     //  Bind our events: 
+    this.hashChangeHandler = this.hashChangeHandler.bind(this);
     this._onChange = this._onChange.bind(this);
-
   }
 
-  toggle() {
+  hashChangeHandler(e) {
     this.setState({
-      isOpen: !this.state.isOpen
+        location: getHash(window.location.hash)
     });
   }
 
-  componentDidMount() {
-	    //  Add store listeners ... and notify ME of changes
+  componentDidMount(){    
+    //  Add a hash change listener:
+    window.addEventListener("hashchange", this.hashChangeHandler);
+
+     //  Add store listeners ... and notify ME of changes
 	    this.systemStateListener = SystemStateStore.addListener(this._onChange);
       this.configListener = ConfigStore.addListener(this._onChange);
       this.activityListener = ActivityStore.addListener(this._onChange);
-	}
+  }
 
-	componentWillUnmount() {
+  componentWillUnmount() {
 	    //  Remove store listeners
 	    this.systemStateListener.remove();
       this.activityListener.remove();
@@ -72,59 +66,15 @@ class App extends Component {
 	}
 
   render() {
-    //  First, see if the device is running:
-    let runState = badgeNotRunning;
-    let runStateText = "stopped";
-    if(this.state.systemState.devicerunning === true)
-    {
-      runState = badgeRunning;
-      runStateText = "running";
-    }
-
-    let timeSinceState = "time immemorial";
-    if(this.state.mostRecentActivity != null)
-    {
-      timeSinceState = moment(this.state.mostRecentActivity.timestamp).fromNow(true);
-    }
-
     //  Get the appliance name:
     let applianceName = ConfigStore.getApplianceName();
 
     return (
-      <div>
-        <Navbar color="inverse" inverse toggleable>
-          <NavbarToggler right onClick={this.toggle} />
-          <NavbarBrand href="#/">Appliance monitor <small>v{this.state.systemState.appversion}</small></NavbarBrand>
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="#/settings">Settings</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/danesparza/appliance-monitor">Help</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-        <Jumbotron>
-          <Container>
-            <Row>
-              <Col>
-                <h2>{applianceName} is {runState}</h2>
-                <p className="lead">It has been {runStateText} for {timeSinceState}.</p>
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
-        <Container>
-            <p className="lead">Recent activity:</p>           
-            <section id="cd-timeline" className="cd-container">          
-              {this.state.activityItems.map(function(activityItem) {
-                return <ActivityItem key={activityItem.timestamp} name={applianceName} activity={activityItem}/>;
-              })}
-            </section>
-          </Container>
-      </div>
+      <Router {...this.state} applianceName={applianceName}>
+        <Route path="/" component={Main} />
+        <Route path="/settings" component={Settings} />
+        <Route path="*" component={NotFound} />
+      </Router>
     );
   }
 

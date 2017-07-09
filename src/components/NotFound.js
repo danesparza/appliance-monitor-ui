@@ -1,16 +1,16 @@
 //  React
 import React, { Component } from 'react';
 
-class Config extends Component {  
+class NotFound extends Component {  
 
   render() {
 
     return (
         <div>
-            Config page 
+            404 NOT FOUND 
         </div>
     );
   }
 }
 
-export default Config;
+export default NotFound;

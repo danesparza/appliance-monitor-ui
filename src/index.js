@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route} from 'react-enroute'
 
 //  Components
 import App from './App';
-import Config from './components/Config';
+// import Main from './components/Main';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -18,22 +17,12 @@ import APIutils from './utils/APIutils';
 //  Images
 import applianceIcon from './washing-machine.png';
 
-const state = {
-  location: window.location.pathname
-}
-
 //  Call API util methods:
 APIutils.getCurrentState();
 APIutils.getActivities();
 APIutils.getAllConfigItems();
 
-ReactDOM.render(<Router {...state}>
-  <Route path="/" component={App} />
-  <Route path="/config" component={Config} />
-  <Route path="/ui" component={App} />
-  <Route path="/ui/config" component={Config} />
-  <Route path="*" component={() => <div>404</div>} />
-</Router>, document.getElementById('root'))
+ReactDOM.render(<App/>, document.getElementById('root'))
 
 registerServiceWorker();
 
