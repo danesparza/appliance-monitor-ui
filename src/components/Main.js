@@ -1,13 +1,6 @@
 //  React and reactstrap
 import React, { Component } from 'react';
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
   Container,
   Row,
   Col,
@@ -24,6 +17,7 @@ import moment from 'moment';
 
 //  Components
 import ActivityItem from './ActivityItem';
+import Navbar from './NavBar';
 
 let badgeRunning = <Badge color="success">running</Badge>;
 let badgeNotRunning = <Badge>not running</Badge>;
@@ -66,20 +60,8 @@ class Main extends Component {
 
     return (
       <div>
-        <Navbar color="inverse" inverse toggleable>
-          <NavbarToggler right onClick={this.toggle} />
-          <NavbarBrand href="#/">Appliance monitor <small>v{this.props.systemState.appversion}</small></NavbarBrand>
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="#/settings">Settings</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/danesparza/appliance-monitor">Help</NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
+        <Navbar {...this.props} />
+
         <Jumbotron>
           <Container>
             <Row>
