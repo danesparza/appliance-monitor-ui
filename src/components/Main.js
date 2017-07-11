@@ -66,8 +66,10 @@ class Main extends Component {
           <Container>
             <Row>
               <Col>
-                <h2>{applianceName} is {runState}</h2>
-                <p className="lead">It has been {runStateText} for {timeSinceState}.</p>
+                <h2>
+                  {applianceName} is {runState}<br/>
+                  <small className="text-muted">It has been {runStateText} for {timeSinceState}</small>
+                </h2>
               </Col>
             </Row>
           </Container>

@@ -258,3 +258,14 @@ Modules - reusable parts of our design
   }
   
 }
+
+.page-heading{
+  margin: 20px 0;
+}
+
+.settings-group{
+  background: white;
+  box-shadow: 0 3px 0 #d7e4ed;
+  padding: 10px;
+  margin-bottom: 20px;
+}
