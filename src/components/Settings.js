@@ -10,7 +10,37 @@ import {
 //  Components
 import Navbar from './NavBar';
 
+//  Stores
+import ConfigStore from './../stores/ConfigStore'
+
 class Settings extends Component {  
+
+  constructor(){
+    super();
+    this.state = {
+      ApplianceName: ConfigStore.getApplianceName(),
+      MinimumActivity: ConfigStore.getConfigValue("monitorwindow"),
+      PushoverAPIToken: ConfigStore.getConfigValue("pushoverapikey"),
+      PushoverRecipient: ConfigStore.getConfigValue("pushoverrecipient"),
+      InfluxUrl: ConfigStore.getConfigValue("influxserver")
+    };
+
+    //  Bind our events: 
+    this._onChange = this._onChange.bind(this);
+
+    this._onApplianceNameChange = this._onApplianceNameChange.bind(this);
+    this._onMinimumActivityChange = this._onMinimumActivityChange.bind(this);
+  }
+
+  componentDidMount(){    
+     //  Add store listeners ... and notify ME of changes
+	    this.configListener = ConfigStore.addListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+	    //  Remove store listeners
+	    this.configListener.remove();
+	}
 
   render() {
 
@@ -36,7 +66,7 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label for="txtApplianceName" className="col-sm-3 col-form-label font-weight-bold">Appliance name</label>
                     <div className="col-sm-9">
-                      <input id="txtApplianceName" className="form-control" type="text" value="The Dryer" aria-describedby="txtApplianceNameHelp"/>
+                      <input id="txtApplianceName" className="form-control" type="text" value={this.state.ApplianceName} onChange={this._onApplianceNameChange} maxlength="200" aria-describedby="txtApplianceNameHelp"/>
                       <small id="txtApplianceNameHelp" className="text-muted">
                         Used in the web display and notifications
                       </small>
@@ -48,7 +78,7 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label for="txtMinimumActivity" className="col-sm-3 col-form-label font-weight-bold">Minimum activity</label>
                     <div className="col-sm-9">
-                      <input id="txtMinimumActivity" className="form-control" type="text" value="120" aria-describedby="txtMinimumActivityHelp"/>
+                      <input id="txtMinimumActivity" className="form-control" type="number" step="1" min="5" max="600" value={this.state.MinimumActivity} onChange={this._onMinimumActivityChange} aria-describedby="txtMinimumActivityHelp"/>
                       <small id="txtMinimumActivityHelp" className="text-muted">
                         In seconds
                       </small>
@@ -63,7 +93,7 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label for="txtPushoverRecipient" className="col-sm-3 col-form-label font-weight-bold">Pushover recipient token</label>
                     <div className="col-sm-9">
-                      <input id="txtPushoverRecipient" className="form-control" type="text" value="gqukgkJyLtchaLE41WUEJ2qFM7Q3tb" aria-describedby="txtPushoverRecipientHelp"/>
+                      <input id="txtPushoverRecipient" className="form-control" type="text" value={this.state.PushoverRecipient} maxlength="200" aria-describedby="txtPushoverRecipientHelp"/>
                       <small id="txtPushoverRecipientHelp" className="text-muted">
                         The token to send the notification to
                       </small>
@@ -75,7 +105,7 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label for="txtPushoverAPIToken" className="col-sm-3 col-form-label font-weight-bold">Pushover API token</label>
                     <div className="col-sm-9">
-                      <input id="txtPushoverAPIToken" className="form-control" type="text" value="ad2ujxv7zi7i5zw8fuvt5hu3chjuv4" aria-describedby="txtPushoverAPITokenHelp"/>
+                      <input id="txtPushoverAPIToken" className="form-control" type="text" value={this.state.PushoverAPIToken} maxlength="200" aria-describedby="txtPushoverAPITokenHelp"/>
                       <small id="txtPushoverAPITokenHelp" className="text-muted">
                         Available on the Pushover site
                       </small>
@@ -90,7 +120,7 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label for="txtInfluxUrl" className="col-sm-3 col-form-label font-weight-bold">Influx server url</label>
                     <div className="col-sm-9">
-                      <input id="txtInfluxUrl" className="form-control" type="text" value="http://chile.lan:8086" aria-describedby="txtInfluxUrlHelp"/>
+                      <input id="txtInfluxUrl" className="form-control" type="url" value={this.state.InfluxUrl} maxlength="200" aria-describedby="txtInfluxUrlHelp"/>
                       <small id="txtInfluxUrlHelp" className="text-muted">
                         Optional url to log debugging data.  If left blank, logging is disabled
                       </small>
@@ -115,6 +145,28 @@ class Settings extends Component {
           </Container>          
         </div>
     );
+  }
+
+  _onApplianceNameChange(e){
+    this.setState({
+      ApplianceName: e.target.value
+    });
+  }
+  
+  _onMinimumActivityChange(e){
+    this.setState({
+      MinimumActivity: e.target.value
+    });
+  }
+
+  _onChange() {
+    this.setState({
+      ApplianceName: ConfigStore.getApplianceName(),
+      MinimumActivity: ConfigStore.getConfigValue("monitorwindow"),
+      PushoverAPIToken: ConfigStore.getConfigValue("pushoverapikey"),
+      PushoverRecipient: ConfigStore.getConfigValue("pushoverrecipient"),
+      InfluxUrl: ConfigStore.getConfigValue("influxserver")
+    });
   }
 }
 
