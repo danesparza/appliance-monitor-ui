@@ -11,7 +11,10 @@ import {
 import Navbar from './NavBar';
 
 //  Stores
-import ConfigStore from './../stores/ConfigStore'
+import ConfigStore from './../stores/ConfigStore';
+
+//  API utils
+import APIUtils from './../utils/APIutils';
 
 class Settings extends Component {  
 
@@ -27,6 +30,7 @@ class Settings extends Component {
 
     //  Bind our events: 
     this._onChange = this._onChange.bind(this);
+    this._onSave = this._onSave.bind(this);
 
     this._onApplianceNameChange = this._onApplianceNameChange.bind(this);
     this._onMinimumActivityChange = this._onMinimumActivityChange.bind(this);
@@ -64,9 +68,9 @@ class Settings extends Component {
                 <div className="rounded settings-group">                
                   
                   <div className="form-group row">                    
-                    <label for="txtApplianceName" className="col-sm-3 col-form-label font-weight-bold">Appliance name</label>
+                    <label htmlFor="txtApplianceName" className="col-sm-3 col-form-label font-weight-bold">Appliance name</label>
                     <div className="col-sm-9">
-                      <input id="txtApplianceName" className="form-control" type="text" value={this.state.ApplianceName} onChange={this._onApplianceNameChange} maxlength="200" aria-describedby="txtApplianceNameHelp"/>
+                      <input id="txtApplianceName" className="form-control" type="text" value={this.state.ApplianceName} onChange={this._onApplianceNameChange} maxLength="200" aria-describedby="txtApplianceNameHelp"/>
                       <small id="txtApplianceNameHelp" className="text-muted">
                         Used in the web display and notifications
                       </small>
@@ -76,7 +80,7 @@ class Settings extends Component {
                   <hr/>
 
                   <div className="form-group row">                    
-                    <label for="txtMinimumActivity" className="col-sm-3 col-form-label font-weight-bold">Minimum activity</label>
+                    <label htmlFor="txtMinimumActivity" className="col-sm-3 col-form-label font-weight-bold">Minimum activity</label>
                     <div className="col-sm-9">
                       <input id="txtMinimumActivity" className="form-control" type="number" step="1" min="5" max="600" value={this.state.MinimumActivity} onChange={this._onMinimumActivityChange} aria-describedby="txtMinimumActivityHelp"/>
                       <small id="txtMinimumActivityHelp" className="text-muted">
@@ -91,9 +95,9 @@ class Settings extends Component {
                 <div className="rounded settings-group">                
                   
                   <div className="form-group row">                    
-                    <label for="txtPushoverRecipient" className="col-sm-3 col-form-label font-weight-bold">Pushover recipient token</label>
+                    <label htmlFor="txtPushoverRecipient" className="col-sm-3 col-form-label font-weight-bold">Pushover recipient token</label>
                     <div className="col-sm-9">
-                      <input id="txtPushoverRecipient" className="form-control" type="text" value={this.state.PushoverRecipient} maxlength="200" aria-describedby="txtPushoverRecipientHelp"/>
+                      <input id="txtPushoverRecipient" className="form-control" type="text" value={this.state.PushoverRecipient} maxLength="200" aria-describedby="txtPushoverRecipientHelp"/>
                       <small id="txtPushoverRecipientHelp" className="text-muted">
                         The token to send the notification to
                       </small>
@@ -103,9 +107,9 @@ class Settings extends Component {
                   <hr/>
 
                   <div className="form-group row">                    
-                    <label for="txtPushoverAPIToken" className="col-sm-3 col-form-label font-weight-bold">Pushover API token</label>
+                    <label htmlFor="txtPushoverAPIToken" className="col-sm-3 col-form-label font-weight-bold">Pushover API token</label>
                     <div className="col-sm-9">
-                      <input id="txtPushoverAPIToken" className="form-control" type="text" value={this.state.PushoverAPIToken} maxlength="200" aria-describedby="txtPushoverAPITokenHelp"/>
+                      <input id="txtPushoverAPIToken" className="form-control" type="text" value={this.state.PushoverAPIToken} maxLength="200" aria-describedby="txtPushoverAPITokenHelp"/>
                       <small id="txtPushoverAPITokenHelp" className="text-muted">
                         Available on the Pushover site
                       </small>
@@ -118,9 +122,9 @@ class Settings extends Component {
                 <div className="rounded settings-group">                
                   
                   <div className="form-group row">                    
-                    <label for="txtInfluxUrl" className="col-sm-3 col-form-label font-weight-bold">Influx server url</label>
+                    <label htmlFor="txtInfluxUrl" className="col-sm-3 col-form-label font-weight-bold">Influx server url</label>
                     <div className="col-sm-9">
-                      <input id="txtInfluxUrl" className="form-control" type="url" value={this.state.InfluxUrl} maxlength="200" aria-describedby="txtInfluxUrlHelp"/>
+                      <input id="txtInfluxUrl" className="form-control" type="url" value={this.state.InfluxUrl} maxLength="200" aria-describedby="txtInfluxUrlHelp"/>
                       <small id="txtInfluxUrlHelp" className="text-muted">
                         Optional url to log debugging data.  If left blank, logging is disabled
                       </small>
@@ -135,8 +139,8 @@ class Settings extends Component {
             <Row>
               <Col>                
                 <div className="settings-actions">
-                  <Button color="secondary">Cancel</Button>
-                  <Button className="float-right" color="primary">Save</Button>
+                  <a href="#/" className="btn btn-secondary">Cancel</a>
+                  <Button onClick={this._onSave} className="float-right" color="primary">Save</Button>
                 </div>
               </Col>
             </Row>
@@ -167,6 +171,21 @@ class Settings extends Component {
       PushoverRecipient: ConfigStore.getConfigValue("pushoverrecipient"),
       InfluxUrl: ConfigStore.getConfigValue("influxserver")
     });
+  }
+
+  _onSave(e) {
+    e.preventDefault();
+    
+    //  Add the config items:
+    let items = [];
+    items.push({name: "name", value: this.state.ApplianceName});
+    items.push({name: "monitorwindow", value: this.state.MinimumActivity});
+
+    //  Save the settings:
+    APIUtils.batchUpdateConfigItems(items);
+
+    //  Navigate to the main page
+    window.location.hash = "#/";
   }
 }
 

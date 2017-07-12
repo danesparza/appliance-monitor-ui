@@ -35,7 +35,7 @@ class APIUtils {
 						return;
 					}
 
-					// Examine the text in the response  
+					// Receive system state
 					response.json().then(function (data) {
 						SystemStateActions.receiveSystemState(data);						
 					});
@@ -60,7 +60,7 @@ class APIUtils {
 						return;
 					}
 
-					// Examine the text in the response  
+					// Receive all activities
 					response.json().then(function (data) {
 						ActivityActions.receiveActivities(data);
 					});
@@ -78,6 +78,36 @@ class APIUtils {
 		let url = `${this.baseUrl}/config`;
 
 		fetch(url, {mode: 'cors'})
+			.then(
+				function (response) {
+					if (response.status !== 200) {
+						console.log('Looks like there was a problem. Status Code: ' + response.status);
+						return;
+					}
+
+					// Receive all config items
+					response.json().then(function (data) {
+						ConfigActions.receiveConfigItems(data);			
+					});
+				}
+			)
+			.catch(function (err) {
+				console.log('Fetch Error :-S', err);
+			});
+	}
+
+	//	Updates all config items with the service
+	batchUpdateConfigItems(configItems)
+	{
+		//	Set the REST url
+		let url = `${this.baseUrl}/config`;
+
+		fetch(url, 
+			{
+				mode: 'cors',
+				method: 'post',
+				body: JSON.stringify(configItems)
+			})
 			.then(
 				function (response) {
 					if (response.status !== 200) {
