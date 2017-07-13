@@ -34,6 +34,9 @@ class Settings extends Component {
 
     this._onApplianceNameChange = this._onApplianceNameChange.bind(this);
     this._onMinimumActivityChange = this._onMinimumActivityChange.bind(this);
+    this._onPushoverRecipTokenChange = this._onPushoverRecipTokenChange.bind(this);
+    this._onPushoverAPITokenChange = this._onPushoverAPITokenChange.bind(this);
+    this._onInfluxServerUrlChange = this._onInfluxServerUrlChange.bind(this);
   }
 
   componentDidMount(){    
@@ -97,9 +100,9 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label htmlFor="txtPushoverRecipient" className="col-sm-3 col-form-label font-weight-bold">Pushover recipient token</label>
                     <div className="col-sm-9">
-                      <input id="txtPushoverRecipient" className="form-control" type="text" value={this.state.PushoverRecipient} maxLength="200" aria-describedby="txtPushoverRecipientHelp"/>
+                      <input id="txtPushoverRecipient" className="form-control" type="text" value={this.state.PushoverRecipient} onChange={this._onPushoverRecipTokenChange} maxLength="200" aria-describedby="txtPushoverRecipientHelp"/>
                       <small id="txtPushoverRecipientHelp" className="text-muted">
-                        The token to send the notification to
+                        The token to send the notification to.  <a rel="noopener noreferrer" href="https://pushover.net/faq#overview-what">More help on the Pushover site</a>
                       </small>
                     </div>                    
                   </div>
@@ -109,9 +112,9 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label htmlFor="txtPushoverAPIToken" className="col-sm-3 col-form-label font-weight-bold">Pushover API token</label>
                     <div className="col-sm-9">
-                      <input id="txtPushoverAPIToken" className="form-control" type="text" value={this.state.PushoverAPIToken} maxLength="200" aria-describedby="txtPushoverAPITokenHelp"/>
+                      <input id="txtPushoverAPIToken" className="form-control" type="text" value={this.state.PushoverAPIToken} onChange={this._onPushoverAPITokenChange} maxLength="200" aria-describedby="txtPushoverAPITokenHelp"/>
                       <small id="txtPushoverAPITokenHelp" className="text-muted">
-                        Available on the Pushover site
+                        Available on the <a target="_blank" rel="noopener noreferrer" href="https://pushover.net/">Pushover site</a>
                       </small>
                     </div>                    
                   </div>
@@ -124,7 +127,7 @@ class Settings extends Component {
                   <div className="form-group row">                    
                     <label htmlFor="txtInfluxUrl" className="col-sm-3 col-form-label font-weight-bold">Influx server url</label>
                     <div className="col-sm-9">
-                      <input id="txtInfluxUrl" className="form-control" type="url" value={this.state.InfluxUrl} maxLength="200" aria-describedby="txtInfluxUrlHelp"/>
+                      <input id="txtInfluxUrl" className="form-control" type="url" value={this.state.InfluxUrl} onChange={this._onInfluxServerUrlChange} maxLength="200" aria-describedby="txtInfluxUrlHelp"/>
                       <small id="txtInfluxUrlHelp" className="text-muted">
                         Optional url to log debugging data.  If left blank, logging is disabled
                       </small>
@@ -163,6 +166,24 @@ class Settings extends Component {
     });
   }
 
+  _onPushoverRecipTokenChange(e){
+    this.setState({
+      PushoverRecipient: e.target.value
+    });
+  }
+
+  _onPushoverAPITokenChange(e){
+    this.setState({
+      PushoverAPIToken: e.target.value
+    });
+  }
+
+  _onInfluxServerUrlChange(e){
+    this.setState({
+      InfluxUrl: e.target.value
+    });
+  }
+
   _onChange() {
     this.setState({
       ApplianceName: ConfigStore.getApplianceName(),
@@ -180,6 +201,9 @@ class Settings extends Component {
     let items = [];
     items.push({name: "name", value: this.state.ApplianceName});
     items.push({name: "monitorwindow", value: this.state.MinimumActivity});
+    items.push({name: "pushoverrecipient", value: this.state.PushoverRecipient});
+    items.push({name: "pushoverapikey", value: this.state.PushoverAPIToken});
+    items.push({name: "influxserver", value: this.state.InfluxUrl});
 
     //  Save the settings:
     APIUtils.batchUpdateConfigItems(items);
