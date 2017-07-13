@@ -30,13 +30,31 @@ class Main extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,     
-    };    
+    };
+
+    this.tick = this.tick.bind(this);
+
   }
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  tick() {
+    //  Update the displayed time
+
+  }
+
+  componentDidMount() {
+    //  Add an interval tick for every 30 seconds:
+    this.interval = setInterval(this.tick, 30000);
+  }
+
+  componentWillUnmount() {
+    //  Clear the interval:
+    clearInterval(this.interval);
   }
 
   render() {
