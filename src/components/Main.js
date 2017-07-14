@@ -44,7 +44,9 @@ class Main extends Component {
 
   tick() {
     //  Update the displayed time
-
+    this.setState({
+      date: moment()
+    });
   }
 
   componentDidMount() {
