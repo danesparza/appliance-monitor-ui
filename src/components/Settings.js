@@ -25,7 +25,8 @@ class Settings extends Component {
       MinimumActivity: ConfigStore.getConfigValue("monitorwindow"),
       PushoverAPIToken: ConfigStore.getConfigValue("pushoverapikey"),
       PushoverRecipient: ConfigStore.getConfigValue("pushoverrecipient"),
-      InfluxUrl: ConfigStore.getConfigValue("influxserver")
+      InfluxUrl: ConfigStore.getConfigValue("influxserver"),
+      DeviceID: ConfigStore.getConfigValue("deviceID")
     };
 
     //  Bind our events: 
@@ -125,6 +126,23 @@ class Settings extends Component {
                 <div className="rounded settings-group">                
                   
                   <div className="form-group row">                    
+                    <label htmlFor="txtDeviceID" className="col-sm-3 col-form-label font-weight-bold">DeviceID</label>
+                    <div className="col-sm-9">
+                      <div className="input-group">
+                        <input id="txtDeviceID" readOnly className="form-control" type="text" value={this.state.DeviceID} aria-describedby="txtDeviceIDHelp"/>
+                        <span className="input-group-btn">
+                          <button className="btn btn-warning" type="button">Reset</button>
+                        </span>
+                      </div>                      
+                      <small id="txtDeviceIDHelp" className="text-muted">
+                        Used to identify this device to the my.appliance-monitor.com cloud service
+                      </small>
+                    </div>                    
+                  </div>
+
+                  <hr/>
+
+                  <div className="form-group row">                    
                     <label htmlFor="txtInfluxUrl" className="col-sm-3 col-form-label font-weight-bold">Influx server url</label>
                     <div className="col-sm-9">
                       <input id="txtInfluxUrl" className="form-control" type="url" value={this.state.InfluxUrl} onChange={this._onInfluxServerUrlChange} maxLength="200" aria-describedby="txtInfluxUrlHelp"/>
@@ -190,7 +208,8 @@ class Settings extends Component {
       MinimumActivity: ConfigStore.getConfigValue("monitorwindow"),
       PushoverAPIToken: ConfigStore.getConfigValue("pushoverapikey"),
       PushoverRecipient: ConfigStore.getConfigValue("pushoverrecipient"),
-      InfluxUrl: ConfigStore.getConfigValue("influxserver")
+      InfluxUrl: ConfigStore.getConfigValue("influxserver"),
+      DeviceID: ConfigStore.getConfigValue("deviceID")
     });
   }
 
